@@ -42,6 +42,8 @@
 
     \hspace{4mm}Tfecha = $<$dia $\in$ (0,31), mes $\in$(0,12), año $\in$ $\mathbb{Z}>$
 
+    \hspace{4mm}Tfuerza = (MARINA, GENDARMERIA, EJERCITO, AERONAUTICA)
+
     \hspace{4mm}Tpersona = $<$
     
         \hspace{8mm}DNI $\in$ Cadena, 
@@ -72,7 +74,7 @@
 
         \hspace{8mm}provincia $\in$ Cadena,
 
-        \hspace{8mm}fuerza $\in$ Cadena,
+        \hspace{8mm}fuerza $\in$ Tfuerza,
 
         \hspace{8mm}destino $\in$ Cadena,
 
@@ -86,7 +88,7 @@
 
     \hspace{4mm}Tfallecido = $<$ info $\in$ Tpersona, next $\in$ P de Tpersona $>$
 
-    \hspace{4mm}Tfuerza = $<$ persona $\in$ Tpersona, back $\in$ P de Tpersona, next $\in$ P de Tpersona $>$
+    \hspace{4mm}TlistaFuerza = $<$ persona $\in$ Tpersona, back $\in$ P de Tpersona, next $\in$ P de Tpersona $>$
 
     \vspace{4mm}
 
@@ -325,11 +327,13 @@
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
-            \hspace{12mm}pos $\in \mathbb{Z}+$
+            \hspace{12mm}pos, nuevaPos $\in \mathbb{Z}+$
 
             \hspace{12mm}msg $\in$ Cadena
 
             \hspace{12mm}opcion $\in \mathbb{Z}$
+
+            \hspace{12mm}modificado $\in$ Tpersona
 
         \hspace{8mm}\underline{\textbf{Inicio}}
 
@@ -427,13 +431,35 @@
                 
                 \hspace{16mm}Salida: veteranos.personas[pos]
 
-                \hspace{16mm}Falta agregar para acomodar el cambiado
+                \hspace{16mm}modificado $\leftarrow$ veteranos.personas[pos]
+
+                \hspace{16mm}nuevaPos $\leftarrow$ BuscarPosicion(modificado)
+
+                \hspace{16mm}\underline{\textbf{si}} (nuevaPos $<$ pos) \underline{\textbf{Entonces}}
+
+                    \hspace{20mm}\underline{\textbf{Para}} (j $\leftarrow$ pos, j $>$ nuevaPos, j $\leftarrow$ j-1) \underline{\textbf{hacer}}
+
+                        \hspace{24mm}veteranos.personas[j] $\leftarrow$ veteranos.personas[j-1]
+                    
+                    \hspace{20mm}\underline{\textbf{Fpara}}
+
+                    \hspace{20mm}veteranos.personas[j] $\leftarrow$ modificado
+
+                \hspace{16mm}\underline{\textbf{sino}}
+
+                    \hspace{20mm}\underline{\textbf{Para}} (j $\leftarrow$ nuevaPos, j $>$ pos, j$\leftarrow$j-1) \underline{\textbf{hacer}}
+
+                        \hspace{24mm}veteranos.personas[j] $\leftarrow$ veteranos.personas[j-1]
+
+                    \hspace{20mm}\underline{\textbf{Fpara}}
+                    
+                    \hspace{20mm}veteranos.personas[j] $\leftarrow$ modificado
+
+                \hspace{16mm}\underline{\textbf{Fsi}}
 
             \hspace{12mm}\underline{\textbf{Sino}}
 
                 \hspace{16mm}Salida: "No hay una persona con ese DNI"
-
-                \hspace{16mm}$\leftarrow$
 
             \hspace{12mm}\underline{\textbf{Fsi}}
 
@@ -447,7 +473,7 @@
 
             \hspace{12mm}fallecidos $\in$ P de Tfallecido
 
-            \hspace{12mm}aux,aux2 $\in$ P de Tfallecido
+            \hspace{12mm}aux,nuevo $\in$ P de Tfallecido
 
             \hspace{12mm}pos $\in \mathbb{Z}+$
 
@@ -457,7 +483,7 @@
 
             \hspace{12mm}(*fallecidos).next $\leftarrow$ nil
 
-            \hspace{12mm}aux2 $\leftarrow$ fallecidos
+            \hspace{12mm}aux $\leftarrow$ fallecidos
 
             \hspace{12mm}pos$\leftarrow$ 1
 
@@ -465,15 +491,15 @@
 
                 \hspace{16mm}\underline{\textbf{Si}} (veteranos.personas[pos].VF = falso) \underline{\textbf{Entonces}}
 
-                    \hspace{20mm}obtener(aux)
+                    \hspace{20mm}obtener(nuevo)
 
-                    \hspace{20mm}(*aux).info $\leftarrow$ veteranos.personas[pos]
+                    \hspace{20mm}(*nuevo).info $\leftarrow$ veteranos.personas[pos]
 
-                    \hspace{20mm}(*aux2).next $\leftarrow$ aux
+                    \hspace{20mm}(*nuevo).next $\leftarrow$ nil
 
-                    \hspace{20mm}(*aux).next $\leftarrow$ nil
+                    \hspace{20mm}(*aux).next $\leftarrow$ nuevo
 
-                    \hspace{20mm}aux2 $\leftarrow$ nil
+                    \hspace{20mm}aux $\leftarrow$ (*aux).next
 
                 \hspace{16mm}\underline{\textbf{Fsi}}
 
@@ -485,7 +511,9 @@
 
             \hspace{12mm}\underline{\textbf{mientras}} (aux $<>$ nil)
 
-                \hspace{16mm}Salida: (*aux).info
+                \hspace{16mm}Salida: (*aux).info.nombre (*aux).info.apellido ...
+
+                    \hspace{24mm}(*aux).info.DNI (*aux).info.nacimiento (*aux).info.ciudad
 
                 \hspace{16mm}aux $\leftarrow$ (*aux).next
 
@@ -495,17 +523,17 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} MostrarPorLocalidad(dato localidad $\in$ Cadena, veteranos $\in$ Tveteranos)
+    \hspace{4mm}\underline{\textbf{Accion}} MostrarPorFuerza(dato fuerza $\in$ Tfuerza, veteranos $\in$ Tveteranos)
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
-            \hspace{12mm}cabeza $\in$ P de Tlocalidad
+            \hspace{12mm}cabeza $\in$ P de TlistaFuerza
 
-            \hspace{12mm}cola $\in$ P de Tlocalidad
+            \hspace{12mm}cola $\in$ P de TlistaFuerza
 
             \hspace{12mm}pos $\in \mathbb{Z}$
 
-            \hspace{12mm}nuevo, aux $\in$ P de Tlocalidad
+            \hspace{12mm}nuevo, aux $\in$ P de TlistaFuerza
 
             \hspace{12mm}posicionado $\in$ Logico
 
@@ -525,59 +553,33 @@
 
             \hspace{12mm}posicionado $\leftarrow$ falso
 
-            \hspace{12mm}aux $\leftarrow$ (*cabeza).next
+            \hspace{12mm}aux $\leftarrow$ cabeza
 
             \hspace{12mm}\underline{\textbf{Para}} (pos $\leftarrow$ 1, pos $<=$ veteranos.cant, pos $\leftarrow$ pos + 1)
 
-            \hspace{16mm}\underline{\textbf{Si}} (veteranos.personas[pos].ciudad = localidad) \underline{\textbf{Entonces}}
+                \hspace{16mm}\underline{\textbf{Si}} (veteranos.personas[pos].fuerza = fuerza) \underline{\textbf{Entonces}}
 
-                \hspace{20mm}obtener(nuevo)
+                    \hspace{20mm}obtener(nuevo)
 
-                \hspace{20mm}(*nuevo).persona $\leftarrow$ veteranos.personas[pos]
+                    \hspace{20mm}(*nuevo).persona $\leftarrow$ veteranos.personas[pos]
 
-                \hspace{20mm}\underline{\textbf{mientras}} ((*aux).next $<>$ nil, posicionado = falso)
+                    \hspace{20mm}(*nuevo).back $\leftarrow$ aux
 
-                    \hspace{24mm}\underline{\textbf{Si}} ((*nuevo).persona.DNI $<$ aux.persona.DNI) \underline{\textbf{Entonces}}
+                    \hspace{20mm}(*nuevo).next $\leftarrow$ cola
 
-                        \hspace{28mm}(*nuevo).next $\leftarrow$ aux
+                    \hspace{20mm}(*aux).next $\leftarrow$ nuevo
 
-                        \hspace{28mm}(*nuevo).back $\leftarrow$ (*aux).back
+                    \hspace{20mm}(*cola).back $\leftarrow$ nuevo
 
-                        \hspace{28mm}(*(*aux).back).next $\leftarrow$ aux
+            \hspace{12mm}\underline{\textbf{Fpara}}
 
-                        \hspace{28mm}(*aux).back $\leftarrow$ nuevo
+            \hspace{12mm}aux $\leftarrow$ (*cabeza).next
 
-                        \hspace{28mm}posicionado $\leftarrow$ verdadero
+            \hspace{12mm}\underline{\textbf{mientras}} ((*aux).next $<>$ nil) \underline{\textbf{hacer}}
 
-                    \hspace{24mm}\underline{\textbf{Fsi}}
+                \hspace{16mm}Salida: (*aux).info
 
-                    \hspace{24mm}aux $\leftarrow$ (*aux).next
-
-                \hspace{20mm}\underline{\textbf{Fmientras}}
-
-                \hspace{20mm}\underline{\textbf{Si}} (no posicionado) \underline{\textbf{Entonces}}
-
-                    \hspace{24mm}(*nuevo).next $\leftarrow$ aux
-
-                    \hspace{24mm}(*nuevo).back $\leftarrow$ (*aux).back
-
-                    \hspace{24mm}(*aux).back $\leftarrow$ nuevo
-
-                    \hspace{24mm}(*(*aux).back).next $\leftarrow$ nuevo
-
-                \hspace{20mm}\underline{\textbf{Fsi}}
-
-            \hspace{16mm}\underline{\textbf{Fsi}}
-
-        \hspace{12mm}\underline{\textbf{Fpara}}
-
-        \hspace{12mm}aux $\leftarrow$ (*cabeza).next
-
-        \hspace{12mm}\underline{\textbf{mientras}} ((*aux).next $<>$ nil) \underline{\textbf{hacer}}
-
-            \hspace{16mm}Salida: (*aux).info
-
-        \hspace{12mm}\underline{\textbf{Fmientras}}
+            \hspace{12mm}\underline{\textbf{Fmientras}}
 
     \hspace{4mm}\underline{\textbf{Faccion}}
 

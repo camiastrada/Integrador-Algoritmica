@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.7.1)  14 NOV 2023 13:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.7.1)  14 NOV 2023 18:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -413,8 +413,8 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.137         \hspace{8mm}
-                          \underline{\textbf{Inicio}} [1] [2] [3] [4] [5] [6] [7] (./Integrador.aux)
+l.137             \hspace{12mm}
+                               posEncontrada $\in$ Logico [1] [2] [3] [4] [5] [6] [7] (./Integrador.aux)
 Package rerunfilecheck Info: File `Integrador.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
@@ -427,7 +427,7 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  69i,6n,79p,350b,366s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Integrador.pdf (8 pages, 107238 bytes).
+Output written on Integrador.pdf (8 pages, 108434 bytes).
 PDF statistics:
  84 PDF objects out of 1000 (max. 8388607)
  57 compressed objects within 1 object stream
