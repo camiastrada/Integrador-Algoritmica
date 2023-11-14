@@ -9,6 +9,8 @@
 \usepackage{subfig}
 \usepackage{array}
 \usepackage{inputenc}
+\usepackage{setspace}
+\onehalfspacing
  
 \title{Integrador Algoritmica}
 \author{Astrada, Camila; Debernardi, Álvaro}
@@ -66,6 +68,8 @@
         
         \hspace{8mm}fallecimiento $\in$ Tfecha,
 
+        \hspace{8mm}beneficio $\in$ Cadena,
+
         \hspace{8mm}provincia $\in$ Cadena,
 
         \hspace{8mm}fuerza $\in$ Cadena,
@@ -78,19 +82,19 @@
 
         \hspace{8mm}secuelas $\in$ Cadena$>$
 
-    \hspace{4mm}Tcomunidad = $<$personas = arreglo$[1...NMax]$ de Tpersonas, cant $\in \mathbb{Z}$$>$
+    \hspace{4mm}Tveteranos = $<$personas = arreglo$[1...NMax]$ de Tpersonas, cant $\in \mathbb{Z}$$>$
 
     \hspace{4mm}Tfallecido = $<$ info $\in$ Tpersona, next $\in$ P de Tpersona $>$
 
-    \hspace{4mm}Tlocalidad = $<$ persona $\in$ Tpersona, back $\in$ P de Tpersona, next $\in$ P de Tpersona $>$
+    \hspace{4mm}Tfuerza = $<$ persona $\in$ Tpersona, back $\in$ P de Tpersona, next $\in$ P de Tpersona $>$
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Funcion}} Vacia(dato comunidad $\in$ Tcomunidad) $\rightarrow$ Logico
+    \hspace{4mm}\underline{\textbf{Funcion}} Vacia(dato veteranos $\in$ Tveteranos) $\rightarrow$ Logico
 
         \hspace{8mm}\underline{\textbf{Inicio}}
 
-            \hspace{12mm}\underline{\textbf{si}} (comunidad.cant = 0) \underline{\textbf{entonces}}
+            \hspace{12mm}\underline{\textbf{si}} (veteranos.cant = 0) \underline{\textbf{entonces}}
 
                 \hspace{16mm}$\leftarrow$ verdadero
 
@@ -104,11 +108,11 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Funcion}} Llena(dato comunidad $\in$ Tcomunidad) $\rightarrow$ Logico
+    \hspace{4mm}\underline{\textbf{Funcion}} Llena(dato veteranos $\in$ Tveteranos) $\rightarrow$ Logico
 
         \hspace{8mm}\underline{\textbf{Inicio}}
 
-            \hspace{12mm}\underline{\textbf{si}} (comunidad.cant = 150) \underline{\textbf{entonces}}
+            \hspace{12mm}\underline{\textbf{si}} (veteranos.cant = NMax) \underline{\textbf{entonces}}
 
                 \hspace{16mm}$\leftarrow$ verdadero
 
@@ -122,7 +126,68 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} Insertar(dato-resultado comunidad $\in$ Tcomunidad)
+    \hspace{4mm}\underline{\textbf{Funcion}} BuscarPosicion(dato veteranos $\in$ Tveteranos, persona $\in$ Tpersona) $\rightarrow$ $\mathbb{Z}$
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}pos $\in \mathbb{Z}$
+            
+            \hspace{12mm}posEncontrada $\in$ Logico
+            
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}pos $\leftarrow$ 1
+
+            \hspace{12mm}posEncontrada $\leftarrow$ falso
+
+            \hspace{12mm}\underline{\textbf{mientras}} (persona.apellido$>$veteranos.personas[pos].apellido
+            y pos$<=$veteranos.cant) \underline{\textbf{hacer}}
+
+                \hspace{16mm}pos $\leftarrow$ pos + 1
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}\underline{\textbf{si}} (persona.apellido$=$veteranos.personas[pos].apellido) \underline{\textbf{Entonces}}
+
+                \hspace{16mm}\underline{\textbf{Repetir}}
+
+                    \hspace{20mm}\underline{\textbf{Segun:}} 
+
+                        \hspace{24mm} persona.nombre $<$ veteranos.personas[pos].nombre : posEncontrada $\leftarrow$ verdadero
+
+                        \hspace{24mm} persona.nombre $>$ veteranos.personas[pos].nombre : pos $\leftarrow$ pos +1
+
+                        \hspace{24mm} persona.nombre $=$ veteranos.personas[pos].nombre :
+
+                            \hspace{28mm} \underline{\textbf{Segun:}}
+
+                                \hspace{32mm} persona.DNI $<$ veteranos.personas[pos].DNI : posEncontrada $\leftarrow$ verdadero
+
+                                \hspace{32mm} persona.DNI $>$ veteranos.personas[pos].DNI : pos $\leftarrow$ pos + 1
+
+                                \hspace{32mm} persona.DNI $=$ veteranos.personas[pos].DNI : 
+
+                                    \hspace{36mm} Salida: "DNI repetido, operacion fallida"
+
+                                    \hspace{36mm} $\leftarrow$ 
+
+                            \hspace{28mm}\underline{\textbf{Fsegun}}
+
+                    \hspace{20mm}\underline{\textbf{Fsegun}}
+
+                \hspace{16mm}\underline{\textbf{hasta que}}(pos $>=$ veteranos.cant o
+                    
+                    \hspace{24mm}persona.apellido $<>$ veteranos.personas[pos].apellido o posEncontrada=verdadero)
+
+            \hspace{12mm}\underline{\textbf{Fsi}}
+
+            \hspace{12mm}$\leftarrow$ pos
+
+    \hspace{4mm}\underline{\textbf{Ffuncion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} Insertar(dato-resultado veteranos $\in$ Tveteranos)
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
@@ -132,7 +197,7 @@
 
         \hspace{8mm}\underline{\textbf{Inicio}}
 
-            \hspace{12mm}\underline{\textbf{si}} (Llena(comunidad)) \underline{\textbf{entonces}}
+            \hspace{12mm}\underline{\textbf{si}} (Llena(veteranos)) \underline{\textbf{entonces}}
 
                 \hspace{16mm}salida: "No es posible agregar miembros. Lista llena."
 
@@ -140,49 +205,20 @@
 
             \hspace{12mm}\underline{\textbf{sino}}
 
-            \hspace{16mm}Entrada: nueMie
+                \hspace{16mm}Entrada: nueMie
 
-            \hspace{16mm}pos $\leftarrow$ 1
+                \hspace{16mm} pos $\leftarrow$ BuscarPosicion(veteranos, nueMie)
 
-            \hspace{16mm}\underline{\textbf{mientras}} (nueMie.apellido$>$comunidad.personas[pos].apellido
-            y pos$<=$comunidad.cant) \underline{\textbf{hacer}}
+                \hspace{16mm}\underline{\textbf{Para}} (aux $\leftarrow$ veteranos.cant, pos $<=$ aux, aux $\leftarrow$ aux - 1) 
+                \underline{\textbf{hacer}}
 
-                \hspace{20mm}pos $\leftarrow$ pos + 1
+                    \hspace{20mm}veteranos.personas[aux + 1] $\leftarrow$ veteranos.personas[aux]
 
-            \hspace{16mm}\underline{\textbf{Fmientras}}
+                \hspace{16mm}\underline{\textbf{Fpara}}
 
-            \hspace{16mm}\underline{\textbf{si}} (nueMie.apellido$=$comunidad.personas[pos].apellido) \underline{\textbf{Entonces}}
+                \hspace{16mm}veteranos.personas[pos] $\leftarrow$ nueMie
 
-                \hspace{20mm}\underline{\textbf{Segun:}} 
-
-                    \hspace{24mm} nueMie.nombre $<$ comunidad.personas[pos].nombre : NADA
-
-                    \hspace{24mm} nueMie.nombre $>$ comunidad.personas[pos].nombre : pos $\leftarrow$ pos +1
-
-                    \hspace{24mm} nueMie.nombre $=$ comunidad.personas[pos].nombre :
-
-                        \hspace{28mm} \underline{\textbf{Segun:}}
-
-                            \hspace{32mm} nueMie.DNI $<$ comunidad.personas[pos].DNI : NADA
-
-                            \hspace{32mm} nueMie.DNI $>$ comunidad.personas[pos].DNI : pos $\leftarrow$ pos + 1
-
-                            \hspace{32mm} nueMie.DNI $=$ comunidad.personas[pos].DNI : 
-
-                                \hspace{36mm} Salida: "DNI repetido, operacion fallida"
-
-                                \hspace{36mm} $\leftarrow$ 
-
-            \hspace{12mm}\underline{\textbf{Para}} (aux $\leftarrow$ comunidad.cant, pos $<=$ aux, aux $\leftarrow$ aux - 1) 
-            \underline{\textbf{hacer}}
-
-                \hspace{16mm}comunidad.personas[aux + 1] $\leftarrow$ comunidad.personas[aux]
-
-            \hspace{12mm}\underline{\textbf{Fpara}}
-
-            \hspace{12mm}comunidad.personas[pos] $\leftarrow$ nueMie
-
-            \hspace{12mm}comunidad.cant $\leftarrow$ comunidad.cant + 1
+                \hspace{16mm}veteranos.cant $\leftarrow$ veteranos.cant + 1
 
             \hspace{12mm}\underline{\textbf{Fsi}}
 
@@ -190,7 +226,7 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} Suprimir(dato-resultado comunidad $\in$ Tcomunidad, dato dni $\in \mathbb{Z}$)
+    \hspace{4mm}\underline{\textbf{Accion}} Suprimir(dato-resultado veteranos $\in$ Tveteranos, dato dni $\in \mathbb{Z}$)
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
@@ -204,11 +240,11 @@
 
             \hspace{12mm} encontrado $\leftarrow$ falso
 
-            \hspace{12mm}\underline{\textbf{mientras}} (pos $<$ comunidad.cant y encontrado = falso) \underline{\textbf{hacer}}
+            \hspace{12mm}\underline{\textbf{mientras}} (pos $<$ veteranos.cant y encontrado = falso) \underline{\textbf{hacer}}
 
                 \hspace{16mm}pos $\leftarrow$ pos + 1
 
-                \hspace{16mm}\underline{\textbf{si}} (comunidad.personas[pos].DNI = dni) \underline{\textbf{Entonces}}
+                \hspace{16mm}\underline{\textbf{si}} (veteranos.personas[pos].DNI = dni) \underline{\textbf{Entonces}}
 
                     \hspace{20mm}encontrado $\leftarrow$ verdadero
 
@@ -216,30 +252,30 @@
 
             \hspace{12mm}\underline{\textbf{Fmientras}}
 
-            \hspace{12mm}\underline{\textbf{Para}} (pos, pos $<$ comunidad.cant, pos $\leftarrow$ pos +1)
+            \hspace{12mm}\underline{\textbf{Para}} (pos, pos $<$ veteranos.cant, pos $\leftarrow$ pos +1)
 
-                \hspace{16mm}comunidad.personas[pos] $\leftarrow$ comunidad.personas[pos + 1]
+                \hspace{16mm}veteranos.personas[pos] $\leftarrow$ veteranos.personas[pos + 1]
 
             \hspace{12mm}\underline{\textbf{Fpara}}
 
-            \hspace{12mm}comunidad.cant $\leftarrow$ comunidad.cant - 1
+            \hspace{12mm}veteranos.cant $\leftarrow$ veteranos.cant - 1
 
     \hspace{4mm}\underline{\textbf{Faccion}}
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} Mostrar(dato comunidad $\in$ Tcomunidad)
+    \hspace{4mm}\underline{\textbf{Accion}} Mostrar(dato veteranos $\in$ Tveteranos)
 
         \hspace{8mm}\underline{\textbf{Léxico local}}
 
-            \hspace{12mm}i $\in \mathbb{Z}$
+            \hspace{12mm}pos $\in \mathbb{Z}$
 
         \hspace{8mm}\underline{\textbf{Inicio}}
 
-            \hspace{12mm}\underline{\textbf{para}} (i $\leftarrow$ 1, i $<=$ comunidad.cant, i $\leftarrow$ i + 1)
+            \hspace{12mm}\underline{\textbf{para}} (pos $\leftarrow$ 1, pos $<=$ veteranos.cant, pos $\leftarrow$ pos + 1)
             \underline{\textbf{hacer}}
 
-                \hspace{16mm}salida: comunidad.personas[i]
+                \hspace{16mm}salida: veteranos.personas[pos]
 
             \hspace{12mm}\underline{\textbf{Fpara}}
 
@@ -247,7 +283,45 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} Modificar(dato-resultado comunidad $\in$ Tcomunidad, dato dni $\in \mathbb{Z}$)
+    \hspace{4mm}\underline{\textbf{Accion}} MostararPorApellido(dato veteranos $\in$ Tveteranos, dato apellido)
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}pos $\in \mathbb{Z}+$
+
+            \hspace{12mm}encontrado $\in$ Logico
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm} pos $\leftarrow$ 0
+
+            \hspace{12mm} encontrado $\leftarrow$ falso
+
+            \hspace{12mm}\underline{\textbf{mientras}} (pos $<$ veteranos.cant y encontrado = falso) \underline{\textbf{hacer}}
+
+                \hspace{16mm}pos $\leftarrow$ pos + 1
+
+                \hspace{16mm}\underline{\textbf{si}} (veteranos.personas[pos].apellido = apellido) \underline{\textbf{Entonces}}
+
+                    \hspace{20mm}encontrado $\leftarrow$ verdadero
+
+                \hspace{16mm}\underline{\textbf{Fsi}}
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}\underline{\textbf{Repetir}}
+
+                \hspace{16mm}Salida: veteranos.personas[pos]
+
+                \hspace{16mm}pos $\leftarrow$ pos + 1
+
+            \hspace{12mm}\underline{\textbf{hasta que}} (veteranos.personas[pos] $<>$ apellido)
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} Modificar(dato-resultado veteranos $\in$ Tveteranos, dato dni $\in \mathbb{Z}$)
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
@@ -272,24 +346,40 @@
                 \hspace{25mm}4.Edad
 
                 \hspace{25mm}5.Ciudad de residencia
+                
+                \hspace{25mm}6.Ciudad de residencia antes de la guerra
 
-                \hspace{25mm}6.Direccion postal
+                \hspace{25mm}7.Provincia donde nacio
 
-                \hspace{25mm}7.Correo electronico
+                \hspace{25mm}8.Direccion postal
 
-                \hspace{25mm}8.Telefono
+                \hspace{25mm}9.Correo electronico
 
-                \hspace{25mm}9.Vive
+                \hspace{25mm}10.Telefono
 
-                \hspace{25mm}10.Fecha de fallecimiento"
+                \hspace{25mm}11.Vive
 
-            \hspace{12mm}\underline{\textbf{mientras}} (pos $<=$ comunidad.cant y dni $<>$ comunidad.personas[pos].DNI) \underline{\textbf{hacer}}
+                \hspace{25mm}12.Fecha de fallecimiento
+
+                \hspace{25mm}13.Numero de beneficio nacional
+
+                \hspace{25mm}14.Fuerza a la que pertenecio
+
+                \hspace{25mm}15.Grado militar
+
+                \hspace{25mm}16.Destino en Malvinas
+
+                \hspace{25mm}17.Funcion en Malvinas
+
+                \hspace{25mm}18.Secuelas de la guerra"
+
+            \hspace{12mm}\underline{\textbf{mientras}} (pos $<=$ veteranos.cant y dni $<>$ veteranos.personas[pos].DNI) \underline{\textbf{hacer}}
 
                 \hspace{16mm}pos $\leftarrow$ pos + 1
 
             \hspace{12mm}\underline{\textbf{Fmientras}}
 
-            \hspace{12mm}\underline{\textbf{Si}} (pos $<=$ comunidad.cant) \underline{\textbf{Entonces}}
+            \hspace{12mm}\underline{\textbf{Si}} (pos $<=$ veteranos.cant) \underline{\textbf{Entonces}}
 
                 \hspace{16mm} Salida: msg
 
@@ -297,29 +387,47 @@
 
                 \hspace{16mm}\underline{\textbf{Segun}}
 
-                    \hspace{20mm}opcion = 1 : Entrada: comunidad.personas[pos].nombre
+                    \hspace{20mm}opcion = 1 : Entrada: veteranos.personas[pos].nombre
 
-                    \hspace{20mm}opcion = 2 : Entrada: comunidad.personas[pos].apellido
+                    \hspace{20mm}opcion = 2 : Entrada: veteranos.personas[pos].apellido
                     
-                    \hspace{20mm}opcion = 3 : Entrada: comunidad.personas[pos].nacimiento
+                    \hspace{20mm}opcion = 3 : Entrada: veteranos.personas[pos].nacimiento
                     
-                    \hspace{20mm}opcion = 4 : Entrada: comunidad.personas[pos].edad
+                    \hspace{20mm}opcion = 4 : Entrada: veteranos.personas[pos].edad
                     
-                    \hspace{20mm}opcion = 5 : Entrada: comunidad.personas[pos].ciudad
+                    \hspace{20mm}opcion = 5 : Entrada: veteranos.personas[pos].ciudad
                     
-                    \hspace{20mm}opcion = 6 : Entrada: comunidad.personas[pos].DP
+                    \hspace{20mm}opcion = 6 : Entrada: veteranos.personas[pos].ciudadAntes
+
+                    \hspace{20mm}opcion = 7 : Entrada: veteranos.personas[pos].provincia
+
+                    \hspace{20mm}opcion = 8 : Entrada: veteranos.personas[pos].DP
                     
-                    \hspace{20mm}opcion = 7 : Entrada: comunidad.personas[pos].CE
+                    \hspace{20mm}opcion = 9 : Entrada: veteranos.personas[pos].CE
                     
-                    \hspace{20mm}opcion = 8 : Entrada: comunidad.personas[pos].tel
+                    \hspace{20mm}opcion = 10 : Entrada: veteranos.personas[pos].tel
                     
-                    \hspace{20mm}opcion = 9 : Entrada: comunidad.personas[pos].VF
+                    \hspace{20mm}opcion = 11 : Entrada: veteranos.personas[pos].VF
                     
-                    \hspace{20mm}opcion = 10 : Entrada: comunidad.personas[pos].fallecimiento
+                    \hspace{20mm}opcion = 12 : Entrada: veteranos.personas[pos].fallecimiento
+
+                    \hspace{20mm}opcion = 13 : Entrada: veteranos.personas[pos].beneficio
+
+                    \hspace{20mm}opcion = 14 : Entrada: veteranos.personas[pos].fuerza
+
+                    \hspace{20mm}opcion = 15 : Entrada: veteranos.personas[pos].grado
+
+                    \hspace{20mm}opcion = 16 : Entrada: veteranos.personas[pos].destino
+
+                    \hspace{20mm}opcion = 17 : Entrada: veteranos.personas[pos].funcionMalvinas
+
+                    \hspace{20mm}opcion = 18 : Entrada: veteranos.personas[pos].secuelas
 
                 \hspace{16mm}\underline{\textbf{Fsegun}}
                 
-                \hspace{16mm}Salida: comunidad.personas[pos]
+                \hspace{16mm}Salida: veteranos.personas[pos]
+
+                \hspace{16mm}Falta agregar para acomodar el cambiado
 
             \hspace{12mm}\underline{\textbf{Sino}}
 
@@ -333,7 +441,7 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} MostrarFallecidos(dato comunidad $\in$ Tcomunidad)
+    \hspace{4mm}\underline{\textbf{Accion}} MostrarFallecidos(dato veteranos $\in$ Tveteranos)
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
@@ -341,7 +449,7 @@
 
             \hspace{12mm}aux,aux2 $\in$ P de Tfallecido
 
-            \hspace{12mm}i $\in \mathbb{Z}+$
+            \hspace{12mm}pos $\in \mathbb{Z}+$
 
         \hspace{8mm}\underline{\textbf{Inicio}}
 
@@ -351,15 +459,15 @@
 
             \hspace{12mm}aux2 $\leftarrow$ fallecidos
 
-            \hspace{12mm}i $\leftarrow$ 1
+            \hspace{12mm}pos$\leftarrow$ 1
 
-            \hspace{12mm}\underline{\textbf{mientras}} (i $<=$ comunidad.cant) \underline{\textbf{hacer}}
+            \hspace{12mm}\underline{\textbf{mientras}} (pos $<=$ veteranos.cant) \underline{\textbf{hacer}}
 
-                \hspace{16mm}\underline{\textbf{Si}} (comunidad.personas[pos].VF = falso) \underline{\textbf{Entonces}}
+                \hspace{16mm}\underline{\textbf{Si}} (veteranos.personas[pos].VF = falso) \underline{\textbf{Entonces}}
 
                     \hspace{20mm}obtener(aux)
 
-                    \hspace{20mm}(*aux).info $\leftarrow$ comunidad.personas[i]
+                    \hspace{20mm}(*aux).info $\leftarrow$ veteranos.personas[pos]
 
                     \hspace{20mm}(*aux2).next $\leftarrow$ aux
 
@@ -369,7 +477,7 @@
 
                 \hspace{16mm}\underline{\textbf{Fsi}}
 
-                \hspace{16mm}i $\leftarrow$ i + 1
+                \hspace{16mm}pos$\leftarrow$ pos + 1
 
             \hspace{12mm}\underline{\textbf{Fmientras}}
 
@@ -387,7 +495,7 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} MostrarPorLocalidad(dato localidad $\in$ Cadena, comunidad $\in$ Tcomunidad)
+    \hspace{4mm}\underline{\textbf{Accion}} MostrarPorLocalidad(dato localidad $\in$ Cadena, veteranos $\in$ Tveteranos)
 
         \hspace{8mm}\underline{\textbf{Léxico Local}}
 
@@ -395,7 +503,7 @@
 
             \hspace{12mm}cola $\in$ P de Tlocalidad
 
-            \hspace{12mm}i $\in \mathbb{Z}$
+            \hspace{12mm}pos $\in \mathbb{Z}$
 
             \hspace{12mm}nuevo, aux $\in$ P de Tlocalidad
 
@@ -419,13 +527,13 @@
 
             \hspace{12mm}aux $\leftarrow$ (*cabeza).next
 
-            \hspace{12mm}\underline{\textbf{Para}} (i $\leftarrow$ 1, i $<=$ comunidad.cant, i $\leftarrow$ i + 1)
+            \hspace{12mm}\underline{\textbf{Para}} (pos $\leftarrow$ 1, pos $<=$ veteranos.cant, pos $\leftarrow$ pos + 1)
 
-            \hspace{16mm}\underline{\textbf{Si}} (comunidad.personas[i].ciudad = localidad) \underline{\textbf{Entonces}}
+            \hspace{16mm}\underline{\textbf{Si}} (veteranos.personas[pos].ciudad = localidad) \underline{\textbf{Entonces}}
 
                 \hspace{20mm}obtener(nuevo)
 
-                \hspace{20mm}(*nuevo).persona $\leftarrow$ comunidad.personas[i]
+                \hspace{20mm}(*nuevo).persona $\leftarrow$ veteranos.personas[pos]
 
                 \hspace{20mm}\underline{\textbf{mientras}} ((*aux).next $<>$ nil, posicionado = falso)
 
@@ -481,7 +589,7 @@
 
     \hspace{4mm}salir $\in$ Logico
 
-    \hspace{4mm}comunidad $\in$ Tcomunidad
+    \hspace{4mm}veteranos $\in$ Tveteranos
 
     \hspace{4mm}dni $\in \mathbb{Z}$
 
@@ -491,7 +599,7 @@
 
     \underline{\textbf{Inicio}}
 
-    \hspace{4mm}comunidad.cant $\leftarrow$ 0
+    \hspace{4mm}veteranos.cant $\leftarrow$ 0
 
     \hspace{4mm}msg $\leftarrow$ "Ingrese la opcion que desea: 
 
@@ -519,7 +627,7 @@
 
     \hspace{8mm}\underline{\textbf{segun}}
 
-    \hspace{12mm}(opcion = 1) : Insertar(comunidad)
+    \hspace{12mm}(opcion = 1) : Insertar(veteranos)
 
     \hspace{12mm}(opcion = 2) :
 
@@ -527,7 +635,7 @@
 
         \hspace{16mm}Entrada: dni
         
-        \hspace{16mm}Suprimir(comunidad, dni)
+        \hspace{16mm}Suprimir(veteranos, dni)
 
     \hspace{12mm}(opcion = 3) : 
     
@@ -535,11 +643,11 @@
 
         \hspace{16mm}Entrada: dni
         
-        \hspace{16mm}Modificar(comunidad, dni)
+        \hspace{16mm}Modificar(veteranos, dni)
 
-    \hspace{12mm}(opcion = 4) : Mostrar(comunidad)
+    \hspace{12mm}(opcion = 4) : Mostrar(veteranos)
 
-    \hspace{12mm}(opcion = 5) : MostrarFallecidos(comunidad)
+    \hspace{12mm}(opcion = 5) : MostrarFallecidos(veteranos)
 
     \hspace{12mm}(opcion = 6) : 
     
@@ -547,7 +655,7 @@
 
         \hspace{16mm}Entrada: localidad
 
-        \hspace{16mm}MostrarPorLocalidad(localidad, comunidad)
+        \hspace{16mm}MostrarPorLocalidad(localidad, veteranos)
 
     \hspace{12mm}(opcion = 7) : salir $\leftarrow$ verdadero
 
