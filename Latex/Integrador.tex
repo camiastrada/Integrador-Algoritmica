@@ -1,0 +1,561 @@
+\documentclass{article}
+\usepackage{babel}
+\usepackage[letterpaper,top=1cm,bottom=1.5cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{ragged2e}
+\usepackage{subfig}
+\usepackage{array}
+\usepackage{inputenc}
+ 
+\title{Integrador Algoritmica}
+\author{Astrada, Camila; Debernardi, Álvaro}
+ 
+\begin{document}
+    \begin{titlepage}
+        \centering
+        {\bfseries\LARGE Universidad Nacional de Río Cuarto \par}
+        \vspace{1cm}
+        {\scshape\Large Facultad de Ciencias Exactas, Físico Químicas y Naturales \par}
+        {\scshape\Large Analista en Computación \par}
+        {\scshape\Large Introduccion a la Algoritmica y Programación\par}
+        \vspace{3cm}
+        {\scshape\Huge Integrador Algoritmica \\ Proyecto Malvinas\par}
+        \vspace{3cm}
+         %{\itshape\Large Proyecto Fin de Carrera \par}
+        \vfill
+        {\Large Autores: \par}
+        {\Large Debernardi, Álvaro; Astrada, Camila\par}
+        \vfill
+        {\Large 2023 \par} 
+    \end{titlepage}
+
+    \underline{\textbf{Algoritmo}} Proyecto Malvinas
+
+    \underline{\textbf{Léxico}}
+
+    \hspace{4mm}NMax = 250
+
+    \hspace{4mm}Tfecha = $<$dia $\in$ (0,31), mes $\in$(0,12), año $\in$ $\mathbb{Z}>$
+
+    \hspace{4mm}Tpersona = $<$
+    
+        \hspace{8mm}DNI $\in$ Cadena, 
+        
+        \hspace{8mm}nombre $\in$ Cadena, 
+        
+        \hspace{8mm}apellido $\in$ Cadena, 
+        
+        \hspace{8mm}nacimiento $\in$ Tfecha, 
+        
+        \hspace{8mm}edad $\in \mathbb{Z}$, 
+        
+        \hspace{8mm}ciudad $\in$ Cadena, 
+
+        \hspace{8mm}ciudadAntes $\in$ Cadena, 
+        
+        \hspace{8mm}DP $\in$ Cadena, 
+        
+        \hspace{8mm}CE $\in$ Cadena, 
+        
+        \hspace{8mm}tel $\in$ Cadena, 
+        
+        \hspace{8mm}VF $\in$ Logico, 
+        
+        \hspace{8mm}fallecimiento $\in$ Tfecha,
+
+        \hspace{8mm}provincia $\in$ Cadena,
+
+        \hspace{8mm}fuerza $\in$ Cadena,
+
+        \hspace{8mm}destino $\in$ Cadena,
+
+        \hspace{8mm}funcionMalvinas $\in$ Cadena,
+
+        \hspace{8mm}grado $\in$ Cadena,
+
+        \hspace{8mm}secuelas $\in$ Cadena$>$
+
+    \hspace{4mm}Tcomunidad = $<$personas = arreglo$[1...NMax]$ de Tpersonas, cant $\in \mathbb{Z}$$>$
+
+    \hspace{4mm}Tfallecido = $<$ info $\in$ Tpersona, next $\in$ P de Tpersona $>$
+
+    \hspace{4mm}Tlocalidad = $<$ persona $\in$ Tpersona, back $\in$ P de Tpersona, next $\in$ P de Tpersona $>$
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Funcion}} Vacia(dato comunidad $\in$ Tcomunidad) $\rightarrow$ Logico
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}\underline{\textbf{si}} (comunidad.cant = 0) \underline{\textbf{entonces}}
+
+                \hspace{16mm}$\leftarrow$ verdadero
+
+            \hspace{12mm}\underline{\textbf{sino}}
+
+                \hspace{16mm}$\leftarrow$ falso
+
+        \hspace{12mm}\underline{\textbf{Fsi}}
+
+    \hspace{4mm}\underline{\textbf{Ffuncion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Funcion}} Llena(dato comunidad $\in$ Tcomunidad) $\rightarrow$ Logico
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}\underline{\textbf{si}} (comunidad.cant = 150) \underline{\textbf{entonces}}
+
+                \hspace{16mm}$\leftarrow$ verdadero
+
+            \hspace{12mm}\underline{\textbf{sino}}
+
+                \hspace{16mm}$\leftarrow$ falso
+
+            \hspace{12mm}\underline{\textbf{Fsi}}
+
+    \hspace{4mm}\underline{\textbf{Ffuncion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} Insertar(dato-resultado comunidad $\in$ Tcomunidad)
+
+        \hspace{8mm}\underline{\textbf{Léxico Local}}
+
+            \hspace{12mm}nueMie $\in$ Tpersona
+
+            \hspace{12mm}pos, aux $\in \mathbb{Z}$
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}\underline{\textbf{si}} (Llena(comunidad)) \underline{\textbf{entonces}}
+
+                \hspace{16mm}salida: "No es posible agregar miembros. Lista llena."
+
+                \hspace{16mm}$\leftarrow$
+
+            \hspace{12mm}\underline{\textbf{sino}}
+
+            \hspace{16mm}Entrada: nueMie
+
+            \hspace{16mm}pos $\leftarrow$ 1
+
+            \hspace{16mm}\underline{\textbf{mientras}} (nueMie.apellido$>$comunidad.personas[pos].apellido
+            y pos$<=$comunidad.cant) \underline{\textbf{hacer}}
+
+                \hspace{20mm}pos $\leftarrow$ pos + 1
+
+            \hspace{16mm}\underline{\textbf{Fmientras}}
+
+            \hspace{16mm}\underline{\textbf{si}} (nueMie.apellido$=$comunidad.personas[pos].apellido) \underline{\textbf{Entonces}}
+
+                \hspace{20mm}\underline{\textbf{Segun:}} 
+
+                    \hspace{24mm} nueMie.nombre $<$ comunidad.personas[pos].nombre : NADA
+
+                    \hspace{24mm} nueMie.nombre $>$ comunidad.personas[pos].nombre : pos $\leftarrow$ pos +1
+
+                    \hspace{24mm} nueMie.nombre $=$ comunidad.personas[pos].nombre :
+
+                        \hspace{28mm} \underline{\textbf{Segun:}}
+
+                            \hspace{32mm} nueMie.DNI $<$ comunidad.personas[pos].DNI : NADA
+
+                            \hspace{32mm} nueMie.DNI $>$ comunidad.personas[pos].DNI : pos $\leftarrow$ pos + 1
+
+                            \hspace{32mm} nueMie.DNI $=$ comunidad.personas[pos].DNI : 
+
+                                \hspace{36mm} Salida: "DNI repetido, operacion fallida"
+
+                                \hspace{36mm} $\leftarrow$ 
+
+            \hspace{12mm}\underline{\textbf{Para}} (aux $\leftarrow$ comunidad.cant, pos $<=$ aux, aux $\leftarrow$ aux - 1) 
+            \underline{\textbf{hacer}}
+
+                \hspace{16mm}comunidad.personas[aux + 1] $\leftarrow$ comunidad.personas[aux]
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+
+            \hspace{12mm}comunidad.personas[pos] $\leftarrow$ nueMie
+
+            \hspace{12mm}comunidad.cant $\leftarrow$ comunidad.cant + 1
+
+            \hspace{12mm}\underline{\textbf{Fsi}}
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} Suprimir(dato-resultado comunidad $\in$ Tcomunidad, dato dni $\in \mathbb{Z}$)
+
+        \hspace{8mm}\underline{\textbf{Léxico Local}}
+
+            \hspace{12mm}pos $\in \mathbb{Z}$
+
+            \hspace{12mm}encontrado $\in$ Logico
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm} pos $\leftarrow$ 0
+
+            \hspace{12mm} encontrado $\leftarrow$ falso
+
+            \hspace{12mm}\underline{\textbf{mientras}} (pos $<$ comunidad.cant y encontrado = falso) \underline{\textbf{hacer}}
+
+                \hspace{16mm}pos $\leftarrow$ pos + 1
+
+                \hspace{16mm}\underline{\textbf{si}} (comunidad.personas[pos].DNI = dni) \underline{\textbf{Entonces}}
+
+                    \hspace{20mm}encontrado $\leftarrow$ verdadero
+
+                \hspace{16mm}\underline{\textbf{Fsi}}
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}\underline{\textbf{Para}} (pos, pos $<$ comunidad.cant, pos $\leftarrow$ pos +1)
+
+                \hspace{16mm}comunidad.personas[pos] $\leftarrow$ comunidad.personas[pos + 1]
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+
+            \hspace{12mm}comunidad.cant $\leftarrow$ comunidad.cant - 1
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} Mostrar(dato comunidad $\in$ Tcomunidad)
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}i $\in \mathbb{Z}$
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}\underline{\textbf{para}} (i $\leftarrow$ 1, i $<=$ comunidad.cant, i $\leftarrow$ i + 1)
+            \underline{\textbf{hacer}}
+
+                \hspace{16mm}salida: comunidad.personas[i]
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} Modificar(dato-resultado comunidad $\in$ Tcomunidad, dato dni $\in \mathbb{Z}$)
+
+        \hspace{8mm}\underline{\textbf{Léxico Local}}
+
+            \hspace{12mm}pos $\in \mathbb{Z}+$
+
+            \hspace{12mm}msg $\in$ Cadena
+
+            \hspace{12mm}opcion $\in \mathbb{Z}$
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}pos $\leftarrow$ 1
+
+            \hspace{12mm}msg $\leftarrow$ "Que informacion desea cambiar: 
+
+                \hspace{25mm}1.Nombre
+
+                \hspace{25mm}2.Apellido
+
+                \hspace{25mm}3.Fecha de nacimiento
+
+                \hspace{25mm}4.Edad
+
+                \hspace{25mm}5.Ciudad de residencia
+
+                \hspace{25mm}6.Direccion postal
+
+                \hspace{25mm}7.Correo electronico
+
+                \hspace{25mm}8.Telefono
+
+                \hspace{25mm}9.Vive
+
+                \hspace{25mm}10.Fecha de fallecimiento"
+
+            \hspace{12mm}\underline{\textbf{mientras}} (pos $<=$ comunidad.cant y dni $<>$ comunidad.personas[pos].DNI) \underline{\textbf{hacer}}
+
+                \hspace{16mm}pos $\leftarrow$ pos + 1
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}\underline{\textbf{Si}} (pos $<=$ comunidad.cant) \underline{\textbf{Entonces}}
+
+                \hspace{16mm} Salida: msg
+
+                \hspace{16mm}Entrada: opcion
+
+                \hspace{16mm}\underline{\textbf{Segun}}
+
+                    \hspace{20mm}opcion = 1 : Entrada: comunidad.personas[pos].nombre
+
+                    \hspace{20mm}opcion = 2 : Entrada: comunidad.personas[pos].apellido
+                    
+                    \hspace{20mm}opcion = 3 : Entrada: comunidad.personas[pos].nacimiento
+                    
+                    \hspace{20mm}opcion = 4 : Entrada: comunidad.personas[pos].edad
+                    
+                    \hspace{20mm}opcion = 5 : Entrada: comunidad.personas[pos].ciudad
+                    
+                    \hspace{20mm}opcion = 6 : Entrada: comunidad.personas[pos].DP
+                    
+                    \hspace{20mm}opcion = 7 : Entrada: comunidad.personas[pos].CE
+                    
+                    \hspace{20mm}opcion = 8 : Entrada: comunidad.personas[pos].tel
+                    
+                    \hspace{20mm}opcion = 9 : Entrada: comunidad.personas[pos].VF
+                    
+                    \hspace{20mm}opcion = 10 : Entrada: comunidad.personas[pos].fallecimiento
+
+                \hspace{16mm}\underline{\textbf{Fsegun}}
+                
+                \hspace{16mm}Salida: comunidad.personas[pos]
+
+            \hspace{12mm}\underline{\textbf{Sino}}
+
+                \hspace{16mm}Salida: "No hay una persona con ese DNI"
+
+                \hspace{16mm}$\leftarrow$
+
+            \hspace{12mm}\underline{\textbf{Fsi}}
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} MostrarFallecidos(dato comunidad $\in$ Tcomunidad)
+
+        \hspace{8mm}\underline{\textbf{Léxico Local}}
+
+            \hspace{12mm}fallecidos $\in$ P de Tfallecido
+
+            \hspace{12mm}aux,aux2 $\in$ P de Tfallecido
+
+            \hspace{12mm}i $\in \mathbb{Z}+$
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}obtener(fallecidos)
+
+            \hspace{12mm}(*fallecidos).next $\leftarrow$ nil
+
+            \hspace{12mm}aux2 $\leftarrow$ fallecidos
+
+            \hspace{12mm}i $\leftarrow$ 1
+
+            \hspace{12mm}\underline{\textbf{mientras}} (i $<=$ comunidad.cant) \underline{\textbf{hacer}}
+
+                \hspace{16mm}\underline{\textbf{Si}} (comunidad.personas[pos].VF = falso) \underline{\textbf{Entonces}}
+
+                    \hspace{20mm}obtener(aux)
+
+                    \hspace{20mm}(*aux).info $\leftarrow$ comunidad.personas[i]
+
+                    \hspace{20mm}(*aux2).next $\leftarrow$ aux
+
+                    \hspace{20mm}(*aux).next $\leftarrow$ nil
+
+                    \hspace{20mm}aux2 $\leftarrow$ nil
+
+                \hspace{16mm}\underline{\textbf{Fsi}}
+
+                \hspace{16mm}i $\leftarrow$ i + 1
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}aux $\leftarrow$ (*fallecidos).next
+
+            \hspace{12mm}\underline{\textbf{mientras}} (aux $<>$ nil)
+
+                \hspace{16mm}Salida: (*aux).info
+
+                \hspace{16mm}aux $\leftarrow$ (*aux).next
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} MostrarPorLocalidad(dato localidad $\in$ Cadena, comunidad $\in$ Tcomunidad)
+
+        \hspace{8mm}\underline{\textbf{Léxico Local}}
+
+            \hspace{12mm}cabeza $\in$ P de Tlocalidad
+
+            \hspace{12mm}cola $\in$ P de Tlocalidad
+
+            \hspace{12mm}i $\in \mathbb{Z}$
+
+            \hspace{12mm}nuevo, aux $\in$ P de Tlocalidad
+
+            \hspace{12mm}posicionado $\in$ Logico
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}obtener(cabeza)
+
+            \hspace{12mm}(*cabeza).back $\leftarrow$ nil
+
+            \hspace{12mm}obtener(cola)
+
+            \hspace{12mm}(*cola).next $\leftarrow$ nil
+
+            \hspace{12mm}(*cabeza).next $\leftarrow$ cola
+
+            \hspace{12mm}(*cola).back $\leftarrow$ cabeza
+
+            \hspace{12mm}posicionado $\leftarrow$ falso
+
+            \hspace{12mm}aux $\leftarrow$ (*cabeza).next
+
+            \hspace{12mm}\underline{\textbf{Para}} (i $\leftarrow$ 1, i $<=$ comunidad.cant, i $\leftarrow$ i + 1)
+
+            \hspace{16mm}\underline{\textbf{Si}} (comunidad.personas[i].ciudad = localidad) \underline{\textbf{Entonces}}
+
+                \hspace{20mm}obtener(nuevo)
+
+                \hspace{20mm}(*nuevo).persona $\leftarrow$ comunidad.personas[i]
+
+                \hspace{20mm}\underline{\textbf{mientras}} ((*aux).next $<>$ nil, posicionado = falso)
+
+                    \hspace{24mm}\underline{\textbf{Si}} ((*nuevo).persona.DNI $<$ aux.persona.DNI) \underline{\textbf{Entonces}}
+
+                        \hspace{28mm}(*nuevo).next $\leftarrow$ aux
+
+                        \hspace{28mm}(*nuevo).back $\leftarrow$ (*aux).back
+
+                        \hspace{28mm}(*(*aux).back).next $\leftarrow$ aux
+
+                        \hspace{28mm}(*aux).back $\leftarrow$ nuevo
+
+                        \hspace{28mm}posicionado $\leftarrow$ verdadero
+
+                    \hspace{24mm}\underline{\textbf{Fsi}}
+
+                    \hspace{24mm}aux $\leftarrow$ (*aux).next
+
+                \hspace{20mm}\underline{\textbf{Fmientras}}
+
+                \hspace{20mm}\underline{\textbf{Si}} (no posicionado) \underline{\textbf{Entonces}}
+
+                    \hspace{24mm}(*nuevo).next $\leftarrow$ aux
+
+                    \hspace{24mm}(*nuevo).back $\leftarrow$ (*aux).back
+
+                    \hspace{24mm}(*aux).back $\leftarrow$ nuevo
+
+                    \hspace{24mm}(*(*aux).back).next $\leftarrow$ nuevo
+
+                \hspace{20mm}\underline{\textbf{Fsi}}
+
+            \hspace{16mm}\underline{\textbf{Fsi}}
+
+        \hspace{12mm}\underline{\textbf{Fpara}}
+
+        \hspace{12mm}aux $\leftarrow$ (*cabeza).next
+
+        \hspace{12mm}\underline{\textbf{mientras}} ((*aux).next $<>$ nil) \underline{\textbf{hacer}}
+
+            \hspace{16mm}Salida: (*aux).info
+
+        \hspace{12mm}\underline{\textbf{Fmientras}}
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}msg $\in$ Cadena
+
+    \hspace{4mm}opcion $\in \mathbb{Z+}$
+
+    \hspace{4mm}salir $\in$ Logico
+
+    \hspace{4mm}comunidad $\in$ Tcomunidad
+
+    \hspace{4mm}dni $\in \mathbb{Z}$
+
+    \hspace{4mm}localidad $\in$ Cadena
+
+    \vspace{4mm}
+
+    \underline{\textbf{Inicio}}
+
+    \hspace{4mm}comunidad.cant $\leftarrow$ 0
+
+    \hspace{4mm}msg $\leftarrow$ "Ingrese la opcion que desea: 
+
+        \hspace{17mm}1.Insertar integrante
+
+        \hspace{17mm}2.Eliminar integrante
+
+        \hspace{17mm}3.Modificar datos de un integrante
+
+        \hspace{17mm}4.Listar todos los integrantes
+
+        \hspace{17mm}5.Listar integrantes fallecidos
+
+        \hspace{17mm}6.Listar integrantes de una localidad
+
+        \hspace{17mm}7.Salir
+
+    \hspace{4mm}salir $\leftarrow$ falso
+
+    \hspace{4mm}\underline{\textbf{repetir}} 
+
+    \hspace{8mm}Salida: msg
+
+    \hspace{8mm}Entrada: opcion
+
+    \hspace{8mm}\underline{\textbf{segun}}
+
+    \hspace{12mm}(opcion = 1) : Insertar(comunidad)
+
+    \hspace{12mm}(opcion = 2) :
+
+        \hspace{16mm}Salida: "Ingrese DNI"
+
+        \hspace{16mm}Entrada: dni
+        
+        \hspace{16mm}Suprimir(comunidad, dni)
+
+    \hspace{12mm}(opcion = 3) : 
+    
+        \hspace{16mm}Salida: "Ingrese DNI"
+
+        \hspace{16mm}Entrada: dni
+        
+        \hspace{16mm}Modificar(comunidad, dni)
+
+    \hspace{12mm}(opcion = 4) : Mostrar(comunidad)
+
+    \hspace{12mm}(opcion = 5) : MostrarFallecidos(comunidad)
+
+    \hspace{12mm}(opcion = 6) : 
+    
+        \hspace{16mm}Salida: "Ingrese localidad"
+
+        \hspace{16mm}Entrada: localidad
+
+        \hspace{16mm}MostrarPorLocalidad(localidad, comunidad)
+
+    \hspace{12mm}(opcion = 7) : salir $\leftarrow$ verdadero
+
+    \hspace{8mm}\underline{\textbf{Fsegun}}
+
+    \hspace{4mm}\underline{\textbf{hasta que}}(salir = verdadero)
+
+
+
+    \underline{\textbf{Fin}}
+\end{document}
