@@ -40,7 +40,7 @@
 
     \hspace{4mm}NMax = 250
 
-    \hspace{4mm}Tfecha = $<$dia $\in$ (0,31), mes $\in$(0,12), año $\in$ $\mathbb{Z}>$
+    \hspace{4mm}Tfecha = $<$dia $\in$ (0,31), mes $\in$(0,12), año $\in$ $\mathbb{Z}+>$
 
     \hspace{4mm}Tfuerza = (MARINA, GENDARMERIA, EJERCITO, AERONAUTICA)
 
@@ -54,7 +54,7 @@
         
         \hspace{8mm}nacimiento $\in$ Tfecha, 
         
-        \hspace{8mm}edad $\in \mathbb{Z}$, 
+        \hspace{8mm}edad $\in \mathbb{Z}+$, 
         
         \hspace{8mm}ciudad $\in$ Cadena, 
 
@@ -84,7 +84,9 @@
 
         \hspace{8mm}secuelas $\in$ Cadena$>$
 
-    \hspace{4mm}Tveteranos = $<$personas = arreglo$[1...NMax]$ de Tpersonas, cant $\in \mathbb{Z}$$>$
+    \hspace{4mm}Tarreglo = arreglo$[1...NMax]$ de Tpersonas
+
+    \hspace{4mm}Tveteranos = $<$personas $\in$ Tarreglo, cant $\in \mathbb{Z}$$>$
 
     \hspace{4mm}Tfallecido = $<$ info $\in$ Tpersona, next $\in$ P de Tpersona $>$
 
@@ -171,13 +173,11 @@
 
                                     \hspace{36mm} Salida: "DNI repetido, operacion fallida"
 
-                                    \hspace{36mm} $\leftarrow$ 
-
                             \hspace{28mm}\underline{\textbf{Fsegun}}
 
                     \hspace{20mm}\underline{\textbf{Fsegun}}
 
-                \hspace{16mm}\underline{\textbf{hasta que}}(pos $>=$ veteranos.cant o
+                \hspace{16mm}\underline{\textbf{hasta que}}(pos $>$ veteranos.cant o
                     
                     \hspace{24mm}persona.apellido $<>$ veteranos.personas[pos].apellido o posEncontrada=verdadero)
 
@@ -185,6 +185,34 @@
 
             \hspace{12mm}$\leftarrow$ pos
 
+    \hspace{4mm}\underline{\textbf{Ffuncion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Funcion}} DniRepetido (dato veteranos $\in$ Tveteranos, dato dni $\in \mathbb{Z}$) $\rightarrow$ Logico
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}pos $\in \mathbb{Z}$
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}pos $\leftarrow$ 1
+
+            \hspace{12mm}\underline{\textbf{mientras}} (pos$<=$ veteranos.cant) \underline{\textbf{hacer}}
+
+                \hspace{16mm}\underline{\textbf{si}} (dni = veteranos.personas[pos].DNI) \underline{\textbf{Entonces}}
+
+                    \hspace{20mm}$\leftarrow$ verdadero
+
+                \hspace{16mm}\underline{\textbf{Fsi}}
+
+                \hspace{16mm}pos $\leftarrow$ pos+1
+                
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}$\leftarrow$ falso
+    
     \hspace{4mm}\underline{\textbf{Ffuncion}}
 
     \vspace{4mm}
@@ -203,11 +231,15 @@
 
                 \hspace{16mm}salida: "No es posible agregar miembros. Lista llena."
 
-                \hspace{16mm}$\leftarrow$
-
             \hspace{12mm}\underline{\textbf{sino}}
 
                 \hspace{16mm}Entrada: nueMie
+
+                \hspace{16mm}\underline{\textbf{mientras}} (DniRepetido(veteranos, nueMie.DNI)) \underline{\textbf{hacer}}
+
+                    \hspace{20mm}Entrada: nueMie.DNI
+
+                \hspace{16mm}\underline{\textbf{Fmientras}}
 
                 \hspace{16mm} pos $\leftarrow$ BuscarPosicion(veteranos, nueMie)
 
@@ -260,11 +292,17 @@
 
             \hspace{12mm}\underline{\textbf{Fpara}}
 
-            \hspace{12mm}veteranos.cant $\leftarrow$ veteranos.cant - 1
+            \hspace{12mm}\underline{\textbf{si}} (encontrado) \underline{\textbf{Entonces}}
+
+                \hspace{16mm}veteranos.cant $\leftarrow$ veteranos.cant - 1
+
+            \hspace{12mm}\underline{\textbf{sino}}
+
+                \hspace{16mm}Salida: "Dni no encontrado"
+
+            \hspace{12mm}\underline{\textbf{Fsi}}
 
     \hspace{4mm}\underline{\textbf{Faccion}}
-
-    \vspace{4mm}
 
     \hspace{4mm}\underline{\textbf{Accion}} Mostrar(dato veteranos $\in$ Tveteranos)
 
@@ -447,9 +485,9 @@
 
                 \hspace{16mm}\underline{\textbf{sino}}
 
-                    \hspace{20mm}\underline{\textbf{Para}} (j $\leftarrow$ nuevaPos, j $>$ pos, j$\leftarrow$j-1) \underline{\textbf{hacer}}
+                    \hspace{20mm}\underline{\textbf{Para}} (j $\leftarrow$ pos, j $<$ nuevaPos, j$\leftarrow$j+1) \underline{\textbf{hacer}}
 
-                        \hspace{24mm}veteranos.personas[j] $\leftarrow$ veteranos.personas[j-1]
+                        \hspace{24mm}veteranos.personas[j] $\leftarrow$ veteranos.personas[j+1]
 
                     \hspace{20mm}\underline{\textbf{Fpara}}
                     
@@ -509,15 +547,23 @@
 
             \hspace{12mm}aux $\leftarrow$ (*fallecidos).next
 
-            \hspace{12mm}\underline{\textbf{mientras}} (aux $<>$ nil)
+            \hspace{12mm}\underline{\textbf{si}} (aux = nil) \underline{\textbf{Entonces}}
 
-                \hspace{16mm}Salida: (*aux).info.nombre (*aux).info.apellido ...
+                \hspace{16mm}Salida: "No hay fallecidos"
 
-                    \hspace{24mm}(*aux).info.DNI (*aux).info.nacimiento (*aux).info.ciudad
+            \hspace{12mm}\underline{\textbf{sino}}
+                
+                \hspace{16mm}\underline{\textbf{mientras}} (aux $<>$ nil)
 
-                \hspace{16mm}aux $\leftarrow$ (*aux).next
+                    \hspace{20mm}Salida: (*aux).info.nombre (*aux).info.apellido ...
 
-            \hspace{12mm}\underline{\textbf{Fmientras}}
+                        \hspace{28mm}(*aux).info.DNI (*aux).info.nacimiento (*aux).info.ciudad
+
+                    \hspace{20mm}aux $\leftarrow$ (*aux).next
+
+                \hspace{16mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}\underline{\textbf{Fsi}}
 
     \hspace{4mm}\underline{\textbf{Faccion}}
 
@@ -566,6 +612,10 @@
                     \hspace{20mm}(*aux).next $\leftarrow$ nuevo
 
                     \hspace{20mm}(*cola).back $\leftarrow$ nuevo
+
+                    \hspace{20mm}aux $\leftarrow$ nuevo
+
+                \hspace{16mm}\underline{\textbf{Fsi}}
 
             \hspace{12mm}\underline{\textbf{Fpara}}
 
