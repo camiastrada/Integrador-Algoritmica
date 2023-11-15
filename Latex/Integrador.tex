@@ -40,7 +40,7 @@
 
     \hspace{4mm}NMax = 250
 
-    \hspace{4mm}Tfecha = $<$dia $\in$ (0,31), mes $\in$(0,12), año $\in$ $\mathbb{Z}+>$
+    \hspace{4mm}Tfecha = $<$dia $\in$ (1,31), mes $\in$(1,12), año $\in$ $\mathbb{Z}+>$
 
     \hspace{4mm}Tfuerza = (MARINA, GENDARMERIA, EJERCITO, AERONAUTICA)
 
@@ -91,6 +91,64 @@
     \hspace{4mm}Tfallecido = $<$ info $\in$ Tpersona, next $\in$ P de Tpersona $>$
 
     \hspace{4mm}TlistaFuerza = $<$ persona $\in$ Tpersona, back $\in$ P de Tpersona, next $\in$ P de Tpersona $>$
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} CargarArreglo(resultado veteranos $\in$ Tveteranos)
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}f $\in$ Archivo de Tpersona
+
+            \hspace{12mm}aux $\in$ Tpersona
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}veteranos.cant $\leftarrow$ 0
+
+            \hspace{12mm}Abrir("malvinas.dat", f, l)
+
+            \hspace{12mm}\underline{\textbf{mientras}} (no EOF(f)) \underline{\textbf{hacer}}
+
+                \hspace{16mm}Leer(f, aux)
+
+                \hspace{16mm}veteranos.personas[veteranos.cant +1]
+
+                \hspace{16mm}veteranos.cant $\leftarrow$ veteranos.cant + 1
+
+            \hspace{12mm}\underline{\textbf{Fmientras}}
+
+            \hspace{12mm}Cerrar(f)
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
+    \hspace{4mm}\underline{\textbf{Accion}} CargarArchivo(dato veteranos $\in$ Tveteranos)
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}f $\in$ Archivo de Tpersona
+
+            \hspace{12mm}aux $\in$ Tpersona
+
+            \hspace{12mm}pos $\in \mathbb{Z}+$
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}Abrir("malvinas.dat", f, e)
+
+            \hspace{12mm}\underline{\textbf{Para}} (pos $\leftarrow$ 1, pos $<=$ veteranos.cant, pos $\leftarrow$ pos + 1) \underline{\textbf{hacer}}
+
+                \hspace{16mm}aux $\leftarrow$ veteranos.personas[pos]
+
+                \hspace{16mm}Escribir(f, aux)
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+
+            \hspace{12mm}Cerrar(f)
+
+    \hspace{4mm}\underline{\textbf{Faccion}}
 
     \vspace{4mm}
 
@@ -304,6 +362,8 @@
 
     \hspace{4mm}\underline{\textbf{Faccion}}
 
+    \vspace{4mm}
+
     \hspace{4mm}\underline{\textbf{Accion}} Mostrar(dato veteranos $\in$ Tveteranos)
 
         \hspace{8mm}\underline{\textbf{Léxico local}}
@@ -323,7 +383,7 @@
 
     \vspace{4mm}
 
-    \hspace{4mm}\underline{\textbf{Accion}} MostararPorApellido(dato veteranos $\in$ Tveteranos, dato apellido)
+    \hspace{4mm}\underline{\textbf{Accion}} MostararPorApellido(dato veteranos $\in$ Tveteranos, apellido $\in$ Cadena)
 
         \hspace{8mm}\underline{\textbf{Léxico local}}
 
@@ -631,41 +691,105 @@
 
     \vspace{4mm}
 
+    \hspace{4mm}\underline{\textbf{Accion}} OrdenarPorMes (dato veteranos $\in$ Tveteranos, mes $\in$ (1,12))
+
+        \hspace{8mm}\underline{\textbf{Léxico local}}
+
+            \hspace{12mm}pos $\in \mathbb{Z}+$
+
+            \hspace{12mm}i, j $\in \mathbb{Z}+$
+
+            \hspace{12mm}veteranosMes $\in$ Tveteranos
+
+            \hspace{12mm}aux $\in$ Tpersona
+
+        \hspace{8mm}\underline{\textbf{Inicio}}
+
+            \hspace{12mm}\underline{\textbf{Para}} (veteranos.personas[pos].nacimiento.mes = mes) \underline{\textbf{Entonces}}
+
+                \hspace{16mm}veteranosMes.personas[veteranosMes.cant + 1] $\leftarrow$ veteranos.personas[pos]
+
+                \hspace{16mm}veteranosMes.cant $\leftarrow$ veteramos.cant + 1
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+
+            \hspace{12mm}\underline{\textbf{Para}} (i $\leftarrow$ veteranosMes.cant, i $>$ 1, i $\leftarrow$ i - 1) \underline{\textbf{hacer}}
+            
+                \hspace{16mm}\underline{\textbf{Para}} (j $\leftarrow$ 1, j $<$ i, j $\leftarrow$ j + 1) \underline{\textbf{hacer}}
+
+                    \hspace{20mm}\underline{\textbf{si}} (veteranosMes.personas[j].nacimiento.dia $<$ ...
+                    
+                        \hspace{34mm}veteranosMes.personas[j+1].nacimiento.dia) \underline{\textbf{Entonces}}
+
+                        \hspace{24mm}aux $\leftarrow$ veteranosMes.personas[j]
+
+                        \hspace{24mm}veteranosMes.personas[j] $\leftarrow$ veteranosMes.personas[j+1]
+
+                        \hspace{24mm}veteranosMes.personas[j+1] $\leftarrow$ aux
+
+                    \hspace{20mm}\underline{\textbf{Fsi}}
+
+                \hspace{16mm}\underline{\textbf{Fpara}}
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+    
+            \hspace{12mm}\underline{\textbf{Para}} (i $\leftarrow$ 1, i $<=$ veteranosMes.cant, i $\leftarrow$ i + 1) \underline{\textbf{Entonces}}
+
+                \hspace{16mm}Salida: veteranosMes.personas[i].nombre, veteranosMes.personas[i].apellido, 
+                
+                \hspace{26mm}veteranosMes.personas[i].nacimiento, veteranosMes.personas[i].edad,
+                
+                \hspace{26mm}veteranosMes.personas[i].ciudad, veteranosMes.personas[i].DP,
+                
+                \hspace{26mm}veteranosMes.personas[i].CE, veteranosMes.personas[i].VF
+
+            \hspace{12mm}\underline{\textbf{Fpara}}
+    
+    \hspace{4mm}\underline{\textbf{Faccion}}
+
+    \vspace{4mm}
+
     \hspace{4mm}msg $\in$ Cadena
 
-    \hspace{4mm}opcion $\in \mathbb{Z+}$
+    \hspace{4mm}opcion, opcionFuerza $\in \mathbb{Z+}$
 
     \hspace{4mm}salir $\in$ Logico
 
     \hspace{4mm}veteranos $\in$ Tveteranos
 
+    \hspace{4mm}apellido $\in$ Cadena
+
     \hspace{4mm}dni $\in \mathbb{Z}$
 
     \hspace{4mm}fuerza $\in$ Tfuerza
+
+    \hspace{4mm}mes $\in$ (1,12)
 
     \vspace{4mm}
 
     \underline{\textbf{Inicio}}
 
-    \hspace{4mm}veteranos.cant $\leftarrow$ 0
+    \hspace{4mm}CargarArreglo(veteranos)
 
     \hspace{4mm}msg $\leftarrow$ "Ingrese la opcion que desea: 
 
-        \hspace{17mm}1.Insertar integrante
+        \hspace{17mm}1.Insertar personas
 
-        \hspace{17mm}2.Eliminar integrante
+        \hspace{17mm}2.Eliminar personas
 
-        \hspace{17mm}3.Modificar datos de un integrante
+        \hspace{17mm}3.Modificar datos de un personas
 
-        \hspace{17mm}4.Listar todos los integrantes
+        \hspace{17mm}4.Listar todos los personas
 
-        \hspace{17mm}5.Listar integrantes fallecidos
+        \hspace{17mm}5.Listar personas por apellidos
 
-        \hspace{17mm}6.Listar integrantes de una localidad
+        \hspace{17mm}6.Listar personas fallecidos
 
-        \hspace{17mm}7.Salir
+        \hspace{17mm}7.Listar personas sugun la fuerza a la que pertenecio
 
-    \hspace{4mm}salir $\leftarrow$ falso
+        \hspace{17mm}8.Listar personas que cumplen años un mes
+
+        \hspace{17mm}9.Salir
 
     \hspace{4mm}\underline{\textbf{repetir}} 
 
@@ -675,37 +799,69 @@
 
     \hspace{8mm}\underline{\textbf{segun}}
 
-    \hspace{12mm}(opcion = 1) : Insertar(veteranos)
+        \hspace{12mm}(opcion = 1) : Insertar(veteranos)
 
-    \hspace{12mm}(opcion = 2) :
+        \hspace{12mm}(opcion = 2) :
 
-        \hspace{16mm}Salida: "Ingrese DNI"
+            \hspace{16mm}Salida: "Ingrese DNI"
 
-        \hspace{16mm}Entrada: dni
+            \hspace{16mm}Entrada: dni
+            
+            \hspace{16mm}Suprimir(veteranos, dni)
+
+        \hspace{12mm}(opcion = 3) : 
         
-        \hspace{16mm}Suprimir(veteranos, dni)
+            \hspace{16mm}Salida: "Ingrese DNI"
 
-    \hspace{12mm}(opcion = 3) : 
-    
-        \hspace{16mm}Salida: "Ingrese DNI"
+            \hspace{16mm}Entrada: dni
+            
+            \hspace{16mm}Modificar(veteranos, dni)
 
-        \hspace{16mm}Entrada: dni
+        \hspace{12mm}(opcion = 4) : Mostrar(veteranos)
+
+        \hspace{12mm}(opcion = 5) : 
         
-        \hspace{16mm}Modificar(veteranos, dni)
+            \hspace{16mm}Salida: "Ingrese apellido"
 
-    \hspace{12mm}(opcion = 4) : Mostrar(veteranos)
+            \hspace{16mm}Entrada: apellido
+            
+            \hspace{16mm}Modificar(veteranos, apellido)
 
-    \hspace{12mm}(opcion = 5) : MostrarFallecidos(veteranos)
+        \hspace{12mm}(opcion = 6) : MostrarFallecidos(veteranos)
 
-    \hspace{12mm}(opcion = 6) : 
-    
-        \hspace{16mm}Salida: "Ingrese fuerza"
+        \hspace{12mm}(opcion = 7) : 
+        
+            \hspace{16mm}Salida: "Ingrese fuerza: 1)Marina, 2)Gendarmeria, 3)Ejército, 4)Aeronáutica"
 
-        \hspace{16mm}Entrada: fuerza
+            \hspace{16mm}Entrada: opcionFuerza
 
-        \hspace{16mm}MostrarPorLocalidad(fuerza, veteranos)
+            \hspace{16mm}\underline{\textbf{Segun}}:
 
-    \hspace{12mm}(opcion = 7) : salir $\leftarrow$ verdadero
+                \hspace{20mm}opcionFuerza = 1 : fuerza $\leftarrow$ MARINA
+
+                \hspace{20mm}opcionFuerza = 2 : fuerza $\leftarrow$ GENDARMERIA
+
+                \hspace{20mm}opcionFuerza = 3 : fuerza $\leftarrow$ EJERCITO
+
+                \hspace{20mm}opcionFuerza = 4 : fuerza $\leftarrow$ AERONAUTICA
+
+            \hspace{16mm}\underline{\textbf{Fsegun}}
+
+            \hspace{16mm}MostrarPorFuerza(fuerza, veteranos)
+
+        \hspace{12mm}(opcion = 8) :
+
+            \hspace{16mm}Salida: "Ingrese un mes"
+
+            \hspace{16mm}Entrada: mes
+
+            \hspace{16mm}OrdenarPorMes(veteranos, mes)
+
+        \hspace{12mm}(opcion = 9) :
+            
+            \hspace{16mm}CargarArchivo(veteranos)
+
+            \hspace{16mm}salir $\leftarrow$ verdadero
 
     \hspace{8mm}\underline{\textbf{Fsegun}}
 
