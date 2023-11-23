@@ -8,10 +8,10 @@ typedef enum {FALSO, VERDADERO} Logico;
 typedef struct Tfecha_{
     int dia;
     int mes;
-    int año;
+    int anio;
 } Tfecha;
 
-typedef enum {MARINA, GENDARMERIA, EJERCITO, AERONAUTICA} Tfuerza;
+typedef enum {MARINA = 1, GENDARMERIA, EJERCITO, AERONAUTICA} Tfuerza;
 
 typedef struct Tpersona_{
     int DNI;
@@ -55,12 +55,14 @@ typedef struct TlistaFuerza_{
 } TlistaFuerza;
 
 void inicializarVeteranos(Tveteranos);
-void cargarArreglo(const Tveteranos);
+void cargarArreglo(Tveteranos);
 void cargarArchivo(const Tveteranos);
 Logico vacia(const Tveteranos);
 Logico llena(const Tveteranos);
 Logico validacionFecha(Tfecha);
 int buscarPosicion(const Tveteranos, const Tpersona*);
+Logico dniRepetido(const Tveteranos, int dni);
+void cargarDatos(Tpersona*);
 void insertar(Tveteranos);
 void suprimir(Tveteranos, int dni);
 void mostrar(const Tveteranos);
