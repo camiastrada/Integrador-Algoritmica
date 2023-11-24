@@ -4,7 +4,7 @@
 #define NMAX 250
 
 typedef enum {FALSO, VERDADERO} Logico;
-typedef enum {INSERTAR, ELIMINAR, MODIFICAR, LISTODO, LISAPELLIDO, LISFALLECIDOS, LISFUERZA, LISPORMES, SALIR} TopcMenu;
+typedef enum {INSERTAR = 1, ELIMINAR, MODIFICAR, LISTODO, LISAPELLIDO, LISFALLECIDOS, LISFUERZA, LISPORMES, SALIR} TopMenu;
 typedef enum {MARINA = 1, GENDARMERIA, EJERCITO, AERONAUTICA} Tfuerza;
 
 typedef struct Tfecha_{
@@ -55,8 +55,8 @@ typedef struct TlistaFuerza_{
     struct TlistaFuerza_* next;
 } TlistaFuerza;
 
-void inicializarVeteranos(Tveteranos);
-void cargarArreglo(Tveteranos);
+void menu(int*);
+void cargarArreglo(Tveteranos*);
 void cargarArchivo(const Tveteranos);
 Logico vacia(const Tveteranos);
 Logico llena(const Tveteranos);

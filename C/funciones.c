@@ -3,16 +3,36 @@
 #include "estructuras.h"
 #include <string.h>
 
-void cargarArreglo(Tveteranos veteranos){
+void menu(int *opcion){
+
+    printf("Ingrese una opción\n");
+    printf("1. Insertar persona.\n");
+    printf("2. Suprimir persona.\n");
+    printf("3. Modificar datos de una persona.\n");
+    printf("4. Listar todas las personas.\n");
+    printf("5. Listar personas por apellido.\n");
+    printf("6. Listar personas fallecidas.\n");
+    printf("7. Listar personas según la fuerza a la que perteneció.\n");
+    printf("8. Listar personas según su mes de cumpleaños.\n");
+    printf("9. Salir.\n");
+
+    do {
+        scanf("%d", opcion);
+        fgetc(stdin);
+    } while (*opcion < 1 || *opcion > 9);
+}
+
+void cargarArreglo(Tveteranos *veteranos){
     FILE *f;
     Tpersona aux;
-    veteranos->cant = 0;
+    *veteranos = (Tveteranos)malloc(sizeof(struct Tveteranos_));
+    (*veteranos)->cant = 0;
     f = fopen("malvinas.dat", "r");
 
     while (!feof(f)) {
         fread(&aux, sizeof(Tpersona), 1,f);
-        veteranos->personas[veteranos->cant + 1] = aux;
-        veteranos->cant++;
+        (*veteranos)->personas[(*veteranos)->cant] = aux;
+        (*veteranos)->cant++;
     }
     fclose(f);
 }
@@ -39,7 +59,7 @@ Logico vacia(const Tveteranos veteranos){
 }
 
 Logico llena(const Tveteranos veteranos){
-    if (veteranos->cant = NMAX)
+    if (veteranos->cant == NMAX)
         return VERDADERO;
     else
         return FALSO;
@@ -47,15 +67,13 @@ Logico llena(const Tveteranos veteranos){
 
 Logico validacionFecha(Tfecha fecha){
 
-    if (fecha.mes < 0 || fecha.mes >12 || fecha.dia < 0 || fecha.dia>31) {
+    if (fecha.mes < 1 || fecha.mes >12 || fecha.dia < 1 || fecha.dia>31) {
         return FALSO;
     }
-    if (fecha.mes != 1 || fecha.mes != 3 || fecha.mes != 5 || fecha.mes != 7 ||
-            fecha.mes != 8 || fecha.mes != 10 || fecha.mes != 12){
+    if ((fecha.mes != 1 || fecha.mes != 3 || fecha.mes != 5 || fecha.mes != 7 || fecha.mes != 8 || fecha.mes != 10 || fecha.mes != 12) && fecha.dia==31){
         return FALSO;
     }
-    if (fecha.mes == 2 && ((fecha.anio%4 == 0 && !(fecha.anio%100 == 0)) || 
-            (fecha.anio%100 == 0 && fecha.anio%400 == 0)) && fecha.dia > 29){
+    if (fecha.mes == 2 && ((fecha.anio%4 == 0 && !(fecha.anio%100 == 0)) || (fecha.anio%100 == 0 && fecha.anio%400 == 0)) && fecha.dia > 29){
         return FALSO;
     }
     if (fecha.mes == 2 && !((fecha.anio%4 == 0 && !(fecha.anio%100 == 0)) || 
@@ -70,7 +88,7 @@ int buscarPosicion(const Tveteranos veteranos, const Tpersona *persona){
     int pos = 0;
     Logico posEncontrada = FALSO;
 
-    while (strcmp(persona->apellido, veteranos->personas[pos].apellido) == 1 && pos < veteranos->cant)
+    while (strcmp(persona->apellido, veteranos->personas[pos].apellido) > 0 && pos < veteranos->cant)
         pos++;
 
     if (strcmp(persona->apellido, veteranos->personas[pos].apellido) == 0){
@@ -104,11 +122,11 @@ Logico dniRepetido(const Tveteranos veteranos, int dni){
 void cargarDatos(const Tveteranos veteranos, Tpersona* nuevo){
     int opcion;
 
-    printf("Ingrese el nombre");
+    printf("Ingrese el nombre: ");
     fgets(nuevo->nombre, 20, stdin);
     nuevo->nombre[strlen(nuevo->nombre)-1] = '\0';
 
-    printf("Ingrese el apellido");
+    printf("Ingrese el apellido: ");
     fgets(nuevo->apellido, 20, stdin);
     nuevo->apellido[strlen(nuevo->apellido)-1] = '\0';
 
@@ -130,28 +148,28 @@ void cargarDatos(const Tveteranos veteranos, Tpersona* nuevo){
         fgetc(stdin);
     } while (!validacionFecha(nuevo->nacimiento));
 
-    printf("Ingrese el ciudad");
+    printf("Ingrese el ciudad: ");
     fgets(nuevo->ciudad, 20, stdin);
     nuevo->ciudad[strlen(nuevo->ciudad)-1] = '\0';
 
-    printf("Ingrese el ciudad antes");
+    printf("Ingrese el ciudad antes: ");
     fgets(nuevo->ciudadAntes, 20, stdin);
     nuevo->ciudadAntes[strlen(nuevo->ciudadAntes)-1] = '\0';
 
-    printf("Ingrese el dirección postal");
+    printf("Ingrese el dirección postal: ");
     fgets(nuevo->DP, 30, stdin);
     nuevo->DP[strlen(nuevo->DP)-1] = '\0';
 
-    printf("Ingrese el correo electrónico");
+    printf("Ingrese el correo electrónico: ");
     fgets(nuevo->CE, 20, stdin);
     nuevo->CE[strlen(nuevo->CE)-1] = '\0';
 
-    printf("Ingrese el teléfono");
+    printf("Ingrese el teléfono: ");
     fgets(nuevo->tel, 15, stdin);
     nuevo->tel[strlen(nuevo->tel)-1] = '\0';
 
     do{
-        printf("Fallecido (0), vivo (1)");
+        printf("Fallecido (0), vivo (1): ");
         scanf("%d", &opcion);
         fgetc(stdin);
         switch (opcion){
@@ -165,7 +183,7 @@ void cargarDatos(const Tveteranos veteranos, Tpersona* nuevo){
                 printf("Opcion incorrecta\n");
                 break;
         }
-    } while (opcion != 0 || opcion != 1);
+    } while (opcion != 0 && opcion != 1);
 
     if (!nuevo->VF){
         do {
@@ -177,18 +195,19 @@ void cargarDatos(const Tveteranos veteranos, Tpersona* nuevo){
 
             printf("Ingrese el año de fallecimiento: ");
             scanf("%d", &nuevo->fallecimiento.anio);
+            fgetc(stdin);
         } while (!validacionFecha(nuevo->fallecimiento));
     }
 
-    printf("Ingrese el beneficio");
+    printf("Ingrese el beneficio: ");
     fgets(nuevo->beneficio, 20, stdin);
     nuevo->beneficio[strlen(nuevo->beneficio)-1] = '\0';
 
-    printf("Ingrese el codigo posta");
+    printf("Ingrese el codigo posta: ");
     fgets(nuevo->CP, 10, stdin);
     nuevo->CP[strlen(nuevo->CP)-1] = '\0';
 
-    printf("Ingrese la provincia");
+    printf("Ingrese la provincia: ");
     fgets(nuevo->provincia, 50, stdin);
     nuevo->provincia[strlen(nuevo->provincia)-1] = '\0';
 
@@ -219,19 +238,19 @@ void cargarDatos(const Tveteranos veteranos, Tpersona* nuevo){
         }
     } while (opcion < 1 || opcion > 4);
 
-    printf("Ingrese el destino malvinas");
+    printf("Ingrese el destino malvinas: ");
     fgets(nuevo->destino, 50, stdin);
     nuevo->destino[strlen(nuevo->destino)-1] = '\0';
 
-    printf("Ingrese el funcion malvinas");
+    printf("Ingrese el funcion malvinas: ");
     fgets(nuevo->funcion, 100, stdin);
     nuevo->funcion[strlen(nuevo->funcion)-1] = '\0';
 
-    printf("Ingrese el grado");
+    printf("Ingrese el grado: ");
     fgets(nuevo->grado, 20, stdin);
     nuevo->grado[strlen(nuevo->grado)-1] = '\0';
 
-    printf("Ingrese el secuelas");
+    printf("Ingrese el secuelas: ");
     fgets(nuevo->secuelas, 200, stdin);
     nuevo->secuelas[strlen(nuevo->secuelas)-1] = '\0';
 }
@@ -274,7 +293,7 @@ void mostrar(const Tveteranos veteranos){
     int pos;
 
     for (pos = 0; pos < veteranos->cant; pos++){
-        printf("-------------------------------------------------");
+        printf("-------------------------------------------------\n");
         printf("Nombre: %s\n", veteranos->personas[pos].nombre);
         printf("Apellido: %s\n", veteranos->personas[pos].apellido);
         printf("Dni: %d\n", veteranos->personas[pos].DNI);
