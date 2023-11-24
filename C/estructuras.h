@@ -4,6 +4,8 @@
 #define NMAX 250
 
 typedef enum {FALSO, VERDADERO} Logico;
+typedef enum {INSERTAR, ELIMINAR, MODIFICAR, LISTODO, LISAPELLIDO, LISFALLECIDOS, LISFUERZA, LISPORMES, SALIR} TopcMenu;
+typedef enum {MARINA = 1, GENDARMERIA, EJERCITO, AERONAUTICA} Tfuerza;
 
 typedef struct Tfecha_{
     int dia;
@@ -11,7 +13,6 @@ typedef struct Tfecha_{
     int anio;
 } Tfecha;
 
-typedef enum {MARINA = 1, GENDARMERIA, EJERCITO, AERONAUTICA} Tfuerza;
 
 typedef struct Tpersona_{
     int DNI;
@@ -31,7 +32,7 @@ typedef struct Tpersona_{
     char provincia[50];
     Tfuerza fuerza;
     char destino[50];
-    char funcionMalvinas[100];
+    char funcion[100];
     char grado[20];
     char secuelas[200];
 } Tpersona;
@@ -45,13 +46,13 @@ typedef struct Tveteranos_* Tveteranos;
 
 typedef struct Tfallecidos_{
     Tpersona info;
-    Tpersona* next;
+    struct Tfallecidos_* next;
 } Tfallecidos;
 
 typedef struct TlistaFuerza_{
     Tpersona persona;
-    Tpersona* back;
-    Tpersona* next;
+    struct TlistaFuerza_* back;
+    struct TlistaFuerza_* next;
 } TlistaFuerza;
 
 void inicializarVeteranos(Tveteranos);
@@ -62,7 +63,7 @@ Logico llena(const Tveteranos);
 Logico validacionFecha(Tfecha);
 int buscarPosicion(const Tveteranos, const Tpersona*);
 Logico dniRepetido(const Tveteranos, int dni);
-void cargarDatos(Tpersona*);
+void cargarDatos(const Tveteranos, Tpersona*);
 void insertar(Tveteranos);
 void suprimir(Tveteranos, int dni);
 void mostrar(const Tveteranos);
